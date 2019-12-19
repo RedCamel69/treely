@@ -1,0 +1,40 @@
+<div class="" [ngClass]="{'index-container-someDivOverlay' : searchBoxHasFocus == true, 'index-container' : searchBoxHasFocus == false }">
+
+  <div class="topnav">
+    <div class="row" style="text-align:center;padding-top:2vh">
+      <div class="col-4"></div>
+      <div class="col-4"
+           style="display: inline-block;text-align: center;color: white;border-style: solid;border-width: medium;width: auto;padding: 0.5vh;margin-bottom: 1vh">
+
+        <h1>treely</h1>
+
+
+      </div>
+      <div class="col-4"></div>
+    </div>
+
+    <form [formGroup]="indexForm">
+      <div class="input-group md-form form-sm form-2 pl-0">
+        <input class="form-control my-0 py-1 lime-border" type="text" placeholder="Search" aria-label="Search" (blur)="onBlur()" (focus)="onFocus()" formControlName="search" (keyup)="onKey($event)" id="search" autocomplete="off">
+        <div class="input-group-append" (click)="doSearch()">
+          <span class="input-group-text lime lighten-2" id="basic-text1">
+            <i class="fas fa-search text-grey"
+               aria-hidden="true"></i>
+          </span>
+
+
+        </div>
+
+
+
+      </div>
+
+      <ul [ngClass]="hideSuggestions ? 'd-none' : 'd-inline-block'" id="list">
+
+        <li [class.active]="currentSuggestionSelection == (i+1)" class="suggestion-list" *ngFor="let suggestion of (autocompleteResponse ? autocompleteResponse.suggestionGroups[0].searchSuggestions ? autocompleteResponse.suggestionGroups[0].searchSuggestions : [] : [] );let i = index;">
+          <span (click)="useSuggestion(suggestion)">{{suggestion.displayText}} {{i}}</span>
+        </li>
+      </ul>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+
+<div  class="row" style="padding-bottom :10px;border-bottom-style:solid;padding-top:10px;margin-bottom:10px" id="titleDiv" >
+  <div class="col-1">
+
+  </div>
+  <div class="col-10 text-center">
+    <h1>treely</h1>
+  </div>
+  <div class="col-1">
+
+  </div>
+</div>
+
+
+
+
+<div class="row" (click)="scrollToTop()">
+
+  <div class="col-12 text-center">
+    <form [formGroup]="searchForm">
+      <div class="input-group md-form form-sm form-2 pl-0">
+        <input class="form-control my-0 py-1 lime-border" type="text" placeholder="Search" aria-label="Search" (blur)="onBlur()" (focus)="onFocus()" formControlName="search" (keyup)="onKey($event)" id="search" autocomplete="off">
+        <div class="input-group-append" (click)="doSearch(10,0)">
+          <span class="input-group-text lime lighten-2" id="basic-text1">
+            <i class="fas fa-search text-grey"
+               aria-hidden="true"></i>
+          </span>
+
+
+        </div>
+
+
+
+      </div>
+
+      <ul [ngClass]="hideSuggestions ? 'd-none' : 'd-inline-block'" id="list">
+
+        <li [class.active]="currentSuggestionSelection == (i+1)" class="suggestion-list" *ngFor="let suggestion of (autocompleteResponse ? autocompleteResponse.suggestionGroups[0].searchSuggestions ? autocompleteResponse.suggestionGroups[0].searchSuggestions : [] : [] );let i = index;">
+          <span (click)="useSuggestion(suggestion)">{{suggestion.displayText}} {{i}}</span>
+        </li>
+      </ul>
+    </form>
+  </div>
+
+</div>
+
+
+<div class="row">
+  <div [ngClass]="{'d-none':searchComplete==true}" style="font-size:x-large;min-height: 10vh;
+    padding-top: 10vh;
+    padding-left: 40vw;
+    background-color: white;">
+    <i class="fa fa-tree fa-2x fa-spin" aria-hidden="true" id="spinner" style="color:green;text-align:center"> </i>
+
+  </div>
+</div>
+
+
+<!--<button><span><i class="fab fa-wikipedia-w"></i></span></button>-->
+
+<div [ngClass]="!weHaveWikiExtract ? 'd-none' : 'd-inline-block'" class="container-fluid" style="padding-bottom:15px;padding-top:15px">
+  <!--<div class="col-10 card">-->
+    
+  <div [ngClass]="!weHaveWikiExtract ? 'd-none' : 'd-inline-block'">
+    <!--<button (click)=toggelWikiExtract()>From Wikipedia : <span><i [ngClass]="!displayWikiExtract ? 'fas fa-plus' : 'fas fa-minus'"></i></span></button>-->
+    <button (click)=toggelWikiExtract()><span><i class="fab fa-wikipedia-w"></i></span></button>
+  </div>
+    
+      <div [ngClass]="displayWikiExtract && weHaveWikiExtract ? 'd-inline-block' : 'd-none'" class="container-fluid">
+        {{this.wikiExtract}}
+      </div>
+   
+  <!--</div>-->
+</div>
+
+<ul style="padding-left:inherit">
+  <li *ngFor="let result of results.webPages.value" style="list-style:none">
+    <a href="{{result.url}}" class="resultTitle">{{result.name}}</a>
+    <br />
+
+    <a href="{{result.url }}" class="resultTitle" style="color:#006621; font-size:small">{{result.url}}</a>
+    <br />
+
+    <p style="color:#222; font-size:small">{{result.snippet}}</p>
+  </li>
+</ul>
+
+<!--<div class="row">
+
+  <div class="text-left">
+    <ul>
+      <li *ngFor="let result of results.webPages.value" style="list-style:none">
+        <a href="{{result.url}}" class="resultTitle">{{result.name}}</a>
+        <br />
+
+        <a href="{{result.url }}" class="resultTitle" style="color:#006621; font-size:small">{{result.url}}</a>
+        <br />
+
+        <p style="color:#222; font-size:small">{{result.snippet}}</p>
+      </li>
+    </ul>
+
+    </div>
+  </div>-->
+
+<div class="row">
+  <div class="col-12 text-center">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" (click)="previousPage()" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" (click)="doSearch(10,(this.currentPage-1) * 10)">{{this.currentPage}}</a></li>
+        <li class="page-item"><a class="page-link" (click)="doSearch(10,(this.currentPage ) * 10)">{{this.currentPage + 1}}</a></li>
+        <li class="page-item"><a class="page-link" (click)="doSearch(10,(this.currentPage + 1) * 10)">{{this.currentPage + 2}}</a></li>
+        <li class="page-item">
+          <a class="page-link" aria-label="Next" (click)="nextPage()">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
